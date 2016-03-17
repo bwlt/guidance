@@ -1,0 +1,23 @@
+{
+  "name": "guidance",
+  "version": "0.0.1",
+  "description": "A Rails like routing system for Express.js",
+  "main": "./lib",
+  "scripts": {
+    "test": "mocha",
+    "test:watch": "npm test -- --watch"
+  },
+  "author": "Walter Barbagallo",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "express": "^4.13.4",
+    "mocha": "^2.4.5",
+    "supertest": "^1.2.0"
+  },
+  "dependencies": {
+    "lodash": "^4.6.1",
+    "methods": "^1.1.2",
+    "require-dir": "^0.3.0"
+  }
+}
