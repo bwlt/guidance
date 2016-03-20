@@ -11,12 +11,12 @@ describe('helpers', function() {
 
     it('parses correctly', function() {
       const parsed = helpers.parseControllerActionNotation('foo#bar');
-      expect(parsed).to.deep.equal({name:'foo', action:'bar'});
+      expect(parsed).to.deep.equal({controller:'foo', action:'bar'});
     });
 
     it('omits suffixes', function() {
       const parsed = helpers.parseControllerActionNotation('fooController#barAction');
-      expect(parsed).to.deep.equal({name:'foo', action:'bar'});
+      expect(parsed).to.deep.equal({controller:'foo', action:'bar'});
     });
 
     it('should not accepts wrong notations', function() {
