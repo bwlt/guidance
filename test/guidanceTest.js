@@ -57,4 +57,21 @@ describe('guidance', function() {
     }).to.throw(Error, 'action \'foo\' on controller \'welcome\' does not exists');
   });
 
+
+  it('use named params', function(done) {
+    let routes = function(router) {
+      router.get('/patients/:id', { to: 'patients#show' });
+    };
+
+    app.use(guidance.initialize(routes, { controllersDir }));
+
+    request(app)
+      .get('/patients/42')
+      .expect(function(res) {
+        expect(res.body.message).to.equals('show patient 42');
+      })
+      .end(done)
+    ;
+  });
+
 });
