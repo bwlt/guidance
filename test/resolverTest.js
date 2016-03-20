@@ -4,16 +4,16 @@
 const expect = require('chai').expect;
 const methods = require('methods');
 
-const Resolver = require('../lib/resolver');
+const Parser = require('../lib/routeParser');
 
 
-describe('resolver', function() {
+describe('routeParser', function() {
 
-  let resolver = new Resolver;
+  let parser = new Parser;
 
-  it('attach methods to resolver', function() {
+  it('attach methods to parser', function() {
     methods.forEach(function(method) {
-      expect(resolver).to.respondTo(method);
+      expect(parser).to.respondTo(method);
     });
   });
 
