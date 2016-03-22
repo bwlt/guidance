@@ -140,6 +140,29 @@ describe('guidance', function() {
       ], done);
     });
 
+    it('creates helpers', function(done) {
+      let routes = function(router) {
+        router.get('/test/:id', { to: 'books#testHelpers' });
+        router.resources('books');
+      };
+
+      app.use(guidance.initialize(routes, { controllersDir }));
+
+      request(app)
+        .get('/test/42')
+        .expect(200)
+        .expect(function(res) {
+          expect(res.body.helpersValue).to.deep.equal({
+            booksPath: '/books',
+            newBookPath: '/books/new',
+            editBookPath: '/books/42/edit',
+            bookPath: '/books/42'
+          });
+        })
+        .end(done)
+      ;
+    });
+
   });
 
 });
