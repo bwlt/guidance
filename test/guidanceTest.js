@@ -163,6 +163,29 @@ describe('guidance', function() {
       ;
     });
 
+    it('defines multiple resources at the same time', function(done) {
+      let routes = function(router) {
+        router.resources(['photos', 'books']);
+      };
+
+      app.use(guidance.initialize(routes, { controllersDir }));
+
+      async.parallel([
+        function(done) {
+          request(app)
+            .get('/photos')
+            .expect(200, done)
+          ;
+        },
+        function(done) {
+          request(app)
+            .get('/books')
+            .expect(200, done)
+          ;
+        }
+      ], done);
+    });
+
   });
 
 });
