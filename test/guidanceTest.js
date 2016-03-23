@@ -186,6 +186,63 @@ describe('guidance', function() {
       ], done);
     });
 
+    context('single resource', function() {
+
+      it('creates single resource', function(done) {
+        let routes = function(router) {
+          router.resource('geocoder');
+        };
+
+        app.use(guidance.initialize(routes, { controllersDir }));
+
+        async.series([
+          function expectNew(callback) {
+            request(app)
+              .get('/geocoder/new')
+              .expect(200, 'new action', callback)
+            ;
+          },
+          function expectCreate(callback) {
+            request(app)
+              .post('/geocoder')
+              .expect(200, 'create action', callback)
+            ;
+          },
+          function expectShow(callback) {
+            request(app)
+              .get('/geocoder')
+              .expect(200, 'show action', callback)
+            ;
+          },
+          function expectEdit(callback) {
+            request(app)
+              .get('/geocoder/edit')
+              .expect(200, 'edit action', callback)
+            ;
+          },
+          function expectUpdateWithPatch(callback) {
+            request(app)
+              .patch('/geocoder')
+              .expect(200, 'update action', callback)
+            ;
+          },
+          function expectUpdateWithPut(callback) {
+            request(app)
+              .put('/geocoder')
+              .expect(200, 'update action', callback)
+            ;
+          },
+          function expectDelete(callback) {
+            request(app)
+              .delete('/geocoder')
+              .expect(200, 'delete action', callback)
+            ;
+          }
+        ], done);
+
+      });
+    });
+
   });
 
 });
