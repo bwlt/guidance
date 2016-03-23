@@ -269,6 +269,30 @@ describe('guidance', function() {
       });
     });
 
+
+
+    it('creates helpers', function(done) {
+      let routes = function(router) {
+        router.get('/test', { to: 'geocoder#testHelpers' });
+        router.resource('geocoder');
+      };
+
+      app.use(guidance.initialize(routes, { controllersDir }));
+
+      request(app)
+        .get('/test')
+        .expect(200)
+        .expect(function(res) {
+          expect(res.body.helpersValue).to.deep.equal({
+            geocoderPath: '/geocoder',
+            newGeocoderPath: '/geocoder/new',
+            editGeocoderPath: '/geocoder/edit'
+          });
+        })
+        .end(done)
+      ;
+    });
+
   });
 
 });

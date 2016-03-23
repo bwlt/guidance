@@ -16,5 +16,15 @@ module.exports = {
   },
   delete: function(req, res) {
     res.send('delete action');
+  },
+
+  testHelpers: function(req, res) {
+    res.json({
+      helpersValue: {
+        editGeocoderPath: res.locals.editGeocoderPath(),
+        geocoderPath: res.locals.geocoderPath(),
+        newGeocoderPath: res.locals.newGeocoderPath()
+      }
+    });
   }
 };
