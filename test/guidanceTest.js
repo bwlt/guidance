@@ -140,6 +140,159 @@ describe('guidance', function() {
       ], done);
     });
 
+    it('creates helpers', function(done) {
+      let routes = function(router) {
+        router.get('/test/:id', { to: 'books#testHelpers' });
+        router.resources('books');
+      };
+
+      app.use(guidance.initialize(routes, { controllersDir }));
+
+      request(app)
+        .get('/test/42')
+        .expect(200)
+        .expect(function(res) {
+          expect(res.body.helpersValue).to.deep.equal({
+            booksPath: '/books',
+            newBookPath: '/books/new',
+            editBookPath: '/books/42/edit',
+            bookPath: '/books/42'
+          });
+        })
+        .end(done)
+      ;
+    });
+
+    it('defines multiple resources at the same time', function(done) {
+      let routes = function(router) {
+        router.resources(['photos', 'books']);
+      };
+
+      app.use(guidance.initialize(routes, { controllersDir }));
+
+      async.parallel([
+        function(done) {
+          request(app)
+            .get('/photos')
+            .expect(200, done)
+          ;
+        },
+        function(done) {
+          request(app)
+            .get('/books')
+            .expect(200, done)
+          ;
+        }
+      ], done);
+    });
+
+    context('single resource', function() {
+
+      it('creates single resource', function(done) {
+        let routes = function(router) {
+          router.resource('geocoder');
+        };
+
+        app.use(guidance.initialize(routes, { controllersDir }));
+
+        async.series([
+          function expectNew(callback) {
+            request(app)
+              .get('/geocoder/new')
+              .expect(200, 'new action', callback)
+            ;
+          },
+          function expectCreate(callback) {
+            request(app)
+              .post('/geocoder')
+              .expect(200, 'create action', callback)
+            ;
+          },
+          function expectShow(callback) {
+            request(app)
+              .get('/geocoder')
+              .expect(200, 'show action', callback)
+            ;
+          },
+          function expectEdit(callback) {
+            request(app)
+              .get('/geocoder/edit')
+              .expect(200, 'edit action', callback)
+            ;
+          },
+          function expectUpdateWithPatch(callback) {
+            request(app)
+              .patch('/geocoder')
+              .expect(200, 'update action', callback)
+            ;
+          },
+          function expectUpdateWithPut(callback) {
+            request(app)
+              .put('/geocoder')
+              .expect(200, 'update action', callback)
+            ;
+          },
+          function expectDelete(callback) {
+            request(app)
+              .delete('/geocoder')
+              .expect(200, 'delete action', callback)
+            ;
+          }
+        ], done);
+
+      });
+
+
+      it('defines multiple single resources at the same time', function(done) {
+        let routes = function(router) {
+          router.resource(['geocoder', 'profile']);
+        };
+
+        app.use(guidance.initialize(routes, { controllersDir }));
+
+        async.parallel([
+          function(done) {
+            request(app)
+              .get('/geocoder')
+              .expect(200, 'show action')
+              .end(done)
+            ;
+          },
+          function(done) {
+            request(app)
+              .get('/profile')
+              .expect(200, 'show action')
+              .end(done)
+            ;
+          }
+        ], done);
+      });
+    });
+
+
+
+    it('creates helpers', function(done) {
+      let routes = function(router) {
+        router.get('/test', { to: 'geocoder#testHelpers' });
+        router.resource('geocoder');
+      };
+
+      app.use(guidance.initialize(routes, { controllersDir }));
+
+      request(app)
+        .get('/test')
+        .expect(200)
+        .expect(function(res) {
+          expect(res.body.helpersValue).to.deep.equal({
+            geocoderPath: '/geocoder',
+            newGeocoderPath: '/geocoder/new',
+            editGeocoderPath: '/geocoder/edit'
+          });
+        })
+        .end(done)
+      ;
+    });
+
   });
 
 });

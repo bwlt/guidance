@@ -37,17 +37,4 @@ describe('router', function() {
 
   });
 
-
-  describe('#_getControllerFromNotation()', function() {
-
-    const controllers = {
-      foo: { bar: function(req, res) { res.json({hello: 'world'}); } }
-    };
-
-    it('works', function() {
-      const controller = router._getControllerFromNotation('foo#barAction', controllers);
-      expect(controller).to.be.equal(controllers.foo.bar);
-    });
-  });
-
 });
