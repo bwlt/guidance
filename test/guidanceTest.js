@@ -241,6 +241,32 @@ describe('guidance', function() {
         ], done);
 
       });
+
+
+      it('defines multiple single resources at the same time', function(done) {
+        let routes = function(router) {
+          router.resource(['geocoder', 'profile']);
+        };
+
+        app.use(guidance.initialize(routes, { controllersDir }));
+
+        async.parallel([
+          function(done) {
+            request(app)
+              .get('/geocoder')
+              .expect(200, 'show action')
+              .end(done)
+            ;
+          },
+          function(done) {
+            request(app)
+              .get('/profile')
+              .expect(200, 'show action')
+              .end(done)
+            ;
+          }
+        ], done);
+      });
     });
 
   });
