@@ -328,4 +328,39 @@ describe('guidance', function() {
     });
   });
 
+  context('scope', function() {
+    it('loads scope', function(done) {
+      let routes = function(router) {
+        router.resource('geocoder');
+        router.scope('admin', function() {
+          router.resources('articles');
+        });
+        router.resources('photos');
+      };
+
+      app.use(guidance.initialize(routes, { controllersDir }));
+
+      async.parallel([
+        function(done) {
+          request(app)
+            .get('/articles')
+            .expect(200)
+            .end(done);
+        },
+        function(done) {
+          request(app)
+            .get('/geocoder/edit')
+            .expect(200)
+            .end(done);
+        },
+        function(done) {
+          request(app)
+            .get('/photos/42')
+            .expect(200)
+            .end(done);
+        }
+      ], done);
+    });
+  });
+
 });
