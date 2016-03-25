@@ -363,4 +363,22 @@ describe('guidance', function() {
     });
   });
 
+  context('nested', function() {
+    it('nests resources', function(done) {
+      let routes = function(router) {
+        router.resources('magazines', function() {
+          router.resources('ads');
+        });
+      };
+
+      app.use(guidance.initialize(routes, { controllersDir }));
+
+      request(app)
+        .get('/magazines/42/ads/7')
+        .expect(200)
+        .end(done)
+      ;
+    });
+  });
+
 });
