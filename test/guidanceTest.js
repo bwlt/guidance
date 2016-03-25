@@ -77,6 +77,22 @@ describe('guidance', function() {
       ;
     });
 
+
+    it('use named routes', function(done) {
+      let routes = function(router) {
+        router.get('/hp', { to: 'welcome#homepage', as: 'homepage' });
+      };
+
+      app.use(guidance.initialize(routes, { controllersDir }));
+
+      request(app)
+        .get('/hp')
+        .expect(function(res) {
+          expect(res.body.helpers).to.deep.equal({ homepagePath: '/hp'});
+        })
+        .end(done)
+      ;
+    });
   });
 
   context('resource', function() {
