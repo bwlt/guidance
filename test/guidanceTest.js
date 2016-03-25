@@ -188,7 +188,7 @@ describe('guidance', function() {
 
     context('single resource', function() {
 
-      it('creates single resource', function(done) {
+      it('loads resource', function(done) {
         let routes = function(router) {
           router.resource('geocoder');
         };
@@ -242,6 +242,28 @@ describe('guidance', function() {
 
       });
 
+      it('creates helpers', function(done) {
+        let routes = function(router) {
+          router.get('/test', { to: 'geocoder#testHelpers' });
+          router.resource('geocoder');
+        };
+
+        app.use(guidance.initialize(routes, { controllersDir }));
+
+        request(app)
+          .get('/test')
+          .expect(200)
+          .expect(function(res) {
+            expect(res.body.helpersValue).to.deep.equal({
+              geocoderPath: '/geocoder',
+              newGeocoderPath: '/geocoder/new',
+              editGeocoderPath: '/geocoder/edit'
+            });
+          })
+          .end(done)
+        ;
+      });
+
 
       it('defines multiple single resources at the same time', function(done) {
         let routes = function(router) {
@@ -269,30 +291,94 @@ describe('guidance', function() {
       });
     });
 
+  });
 
-
-    it('creates helpers', function(done) {
+  context('namespace', function() {
+    it('loads namespace', function(done) {
       let routes = function(router) {
-        router.get('/test', { to: 'geocoder#testHelpers' });
         router.resource('geocoder');
+        router.namespace('admin', function() {
+          router.resources('articles');
+        });
+        router.resources('photos');
+      };
+
+      app.use(guidance.initialize(routes, { controllersDir }));
+
+      async.parallel([
+        function(done) {
+          request(app)
+            .get('/admin/articles')
+            .expect(200)
+            .end(done);
+        },
+        function(done) {
+          request(app)
+            .get('/geocoder/edit')
+            .expect(200)
+            .end(done);
+        },
+        function(done) {
+          request(app)
+            .get('/photos/42')
+            .expect(200)
+            .end(done);
+        }
+      ], done);
+    });
+  });
+
+  context('scope', function() {
+    it('loads scope', function(done) {
+      let routes = function(router) {
+        router.resource('geocoder');
+        router.scope('admin', function() {
+          router.resources('articles');
+        });
+        router.resources('photos');
+      };
+
+      app.use(guidance.initialize(routes, { controllersDir }));
+
+      async.parallel([
+        function(done) {
+          request(app)
+            .get('/articles')
+            .expect(200)
+            .end(done);
+        },
+        function(done) {
+          request(app)
+            .get('/geocoder/edit')
+            .expect(200)
+            .end(done);
+        },
+        function(done) {
+          request(app)
+            .get('/photos/42')
+            .expect(200)
+            .end(done);
+        }
+      ], done);
+    });
+  });
+
+  context('nested', function() {
+    it('nests resources', function(done) {
+      let routes = function(router) {
+        router.resources('magazines', function() {
+          router.resources('ads');
+        });
       };
 
       app.use(guidance.initialize(routes, { controllersDir }));
 
       request(app)
-        .get('/test')
+        .get('/magazines/42/ads/7')
         .expect(200)
-        .expect(function(res) {
-          expect(res.body.helpersValue).to.deep.equal({
-            geocoderPath: '/geocoder',
-            newGeocoderPath: '/geocoder/new',
-            editGeocoderPath: '/geocoder/edit'
-          });
-        })
         .end(done)
       ;
     });
-
   });
 
 });
