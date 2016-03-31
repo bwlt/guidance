@@ -1,6 +1,6 @@
 {
   "name": "guidance",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Rails like routing system for Express.js",
   "main": "./lib",
   "scripts": {
