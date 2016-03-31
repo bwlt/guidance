@@ -191,12 +191,12 @@ It also creates the following helpers:
 
 - `geocoderPath()` returns `/geocoder`
 - `newGeocoderPath()` returns `/geocoder/new`
-- `editGeocoderPath(42)` returns `/geocoder/42/edit``
+- `editGeocoderPath(42)` returns `/geocoder/42/edit`
 
 Multiple single resources can be defined at the same time:
 
 ```javascript
-router.resources(['geocoder', 'profile']);
+router.resource(['geocoder', 'profile']);
 ```
 
 
