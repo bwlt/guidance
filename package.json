@@ -1,6 +1,6 @@
 {
   "name": "guidance",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A Rails like routing system for Express.js",
   "main": "./lib",
   "scripts": {
@@ -18,6 +18,7 @@
     "url": "https://github.com/turbometalskater/guidance.git"
   },
   "devDependencies": {
+    "async": "^2.0.0-rc.1",
     "chai": "^3.5.0",
     "express": "^4.13.4",
     "istanbul": "^0.4.2",
@@ -25,11 +26,14 @@
     "supertest": "^1.2.0"
   },
   "dependencies": {
+    "debug": "^2.2.0",
+    "depd": "^1.1.0",
     "lodash": "^4.6.1",
     "methods": "^1.1.2",
+    "pluralize": "^1.2.1",
     "require-dir": "^0.3.0"
   },
-  "engines" : {
-    "node" : ">=4.4.0"
+  "engines": {
+    "node": ">=4.4.0"
   }
 }
