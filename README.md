@@ -1,5 +1,8 @@
 # Guidance
 
+[![Coverage Status](https://coveralls.io/repos/github/turbometalskater/guidance/badge.svg?branch=master)](https://coveralls.io/github/turbometalskater/guidance?branch=master)
+[![Build Status](https://travis-ci.org/turbometalskater/guidance.svg?branch=master)](https://travis-ci.org/turbometalskater/guidance)
+
 A Rails like middleware for routes loading on expressjs applications.
 (heavily inspired from http://guides.rubyonrails.org/routing.html)
 
