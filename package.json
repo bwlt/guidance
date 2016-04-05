@@ -19,7 +19,7 @@
     "name": "Walter Barbagallo",
     "email": "brb.walter@gmail.com"
   },
-  "license": "ISC",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/turbometalskater/guidance.git"
