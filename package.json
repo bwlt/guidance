@@ -1,6 +1,6 @@
 {
   "name": "guidance",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A Rails like routing system for Express.js",
   "keywords": [
     "routing",
@@ -19,7 +19,7 @@
     "name": "Walter Barbagallo",
     "email": "brb.walter@gmail.com"
   },
-  "license": "ISC",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/turbometalskater/guidance.git"
