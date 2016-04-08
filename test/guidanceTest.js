@@ -317,11 +317,22 @@ describe('guidance', function() {
 
         app.use(guidance.initialize(routes, { controllersDir }));
 
-        request(app)
-          .get('/magazines/42/ads/7')
-          .expect(200)
-          .end(done)
-        ;
+        async.parallel([
+          function(done) {
+            request(app)
+              .get('/magazines/42/ads/7/edit')
+              .expect(200)
+              .end(done)
+            ;
+          },
+          function(done) {
+            request(app)
+              .get('/magazines/42/edit')
+              .expect(200)
+              .end(done)
+            ;
+          }
+        ], done);
       });
     });
 
