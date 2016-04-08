@@ -111,6 +111,16 @@ When the express app receive a `GET /home` request, the index action handler of 
 Any express supported method (router.METHOD) can be used.
 
 
+#### Root
+
+You can specify how to route `GET /` with the root method:
+
+```javascript
+router.root({ to: 'welcome#index' })
+router.root('welcome#index') // shortcut for the above
+```
+
+
 #### Named parameters
 
 Named parameters are also supported:
@@ -253,6 +263,23 @@ router.scope('admin', function() {
 ```
 
 The difference with the namespace is that the routes paths don't have a prefix, but the controller lives inside a directory with the same name of the scope.
+
+
+#### Fluent interface
+
+Guidance router have a fluent interface, so it can be used in this way:
+
+```javascript
+router
+  .get('/geocoder', { to: 'geocoder#show' })
+  .namespace('admin', function() {})
+  .resources('books')
+  .resource('geocoder')
+  .scope('admin', function() {})
+  .root('welcome#index')
+  .post('/photos', { to: 'photos#create' })
+;
+```
 
 
 ## Notes

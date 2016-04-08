@@ -93,6 +93,56 @@ describe('guidance', function() {
         .end(done)
       ;
     });
+
+
+    it('use root method', function(done) {
+
+      let routes = function(router) {
+        router.root({ to: 'welcome#index'});
+      };
+
+      app.use(guidance.initialize(routes, { controllersDir }));
+
+      request(app)
+        .get('/')
+        .expect(200)
+        .end(done)
+      ;
+    });
+
+
+    it('use root method shorthand', function(done) {
+
+      let routes = function(router) {
+        router.root('welcome#index');
+      };
+
+      app.use(guidance.initialize(routes, { controllersDir }));
+
+      request(app)
+        .get('/')
+        .expect(200)
+        .end(done)
+      ;
+    });
+
+
+    it('use a fluent interface', function() {
+      let routes = function(router) {
+        router
+          .get('/geocoder', { to: 'geocoder#show' })
+          .namespace('admin', function() {})
+          .resources('books')
+          .resource('geocoder')
+          .scope('admin', function() {})
+          .root('welcome#index')
+          .post('/photos', { to: 'photos#create' })
+        ;
+      };
+
+      app.use(guidance.initialize(routes, { controllersDir }));
+
+    });
   });
 
   context('resource', function() {
