@@ -109,6 +109,22 @@ describe('guidance', function() {
         .end(done)
       ;
     });
+
+
+    it('use root method shorthand', function(done) {
+
+      let routes = function(router) {
+        router.root('welcome#index');
+      };
+
+      app.use(guidance.initialize(routes, { controllersDir }));
+
+      request(app)
+        .get('/')
+        .expect(200)
+        .end(done)
+      ;
+    });
   });
 
   context('resource', function() {
