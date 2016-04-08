@@ -111,6 +111,16 @@ When the express app receive a `GET /home` request, the index action handler of 
 Any express supported method (router.METHOD) can be used.
 
 
+#### Root
+
+You can specify how to route `GET /` with the root method:
+
+```javascript
+router.root({ to: 'welcome#index' })
+router.root('welcome#index') // shortcut for the above
+```
+
+
 #### Named parameters
 
 Named parameters are also supported:
