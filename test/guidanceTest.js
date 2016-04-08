@@ -125,6 +125,24 @@ describe('guidance', function() {
         .end(done)
       ;
     });
+
+
+    it('use a fluent interface', function() {
+      let routes = function(router) {
+        router
+          .get('/geocoder', { to: 'geocoder#show' })
+          .namespace('admin', function() {})
+          .resources('books')
+          .resource('geocoder')
+          .scope('admin', function() {})
+          .root('welcome#index')
+          .post('/photos', { to: 'photos#create' })
+        ;
+      };
+
+      app.use(guidance.initialize(routes, { controllersDir }));
+
+    });
   });
 
   context('resource', function() {

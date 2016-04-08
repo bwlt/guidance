@@ -265,6 +265,23 @@ router.scope('admin', function() {
 The difference with the namespace is that the routes paths don't have a prefix, but the controller lives inside a directory with the same name of the scope.
 
 
+#### Fluent interface
+
+Guidance router have a fluent interface, so it can be used in this way:
+
+```javascript
+router
+  .get('/geocoder', { to: 'geocoder#show' })
+  .namespace('admin', function() {})
+  .resources('books')
+  .resource('geocoder')
+  .scope('admin', function() {})
+  .root('welcome#index')
+  .post('/photos', { to: 'photos#create' })
+;
+```
+
+
 ## Notes
 
 A modern version of node is required (due to harmony syntax).
